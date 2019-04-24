@@ -23,7 +23,8 @@
         - "{{ ansible_os_family | lower }}-{{ ansible_distribution_major_version | lower }}.yml"
         - "{{ ansible_distribution | lower }}.yml"
         - "{{ ansible_os_family | lower }}.yml"
-      paths: "../vars"
+      #paths: "../vars"
+      paths: "../atlassian"
       skip: true
   loop_control:
     loop_var: "loop_var"
@@ -55,7 +56,7 @@
   user:
     name: "jira"
     group: "jira"
-    home: "/var/atlassian/application-data/jira"
+    home: "/atlassian/application-data/jira"
     shell: "/usr/sbin/nologin"
     system: true
     create_home: false
@@ -72,10 +73,10 @@
   with_items:
     - { dest: "/etc/init.d" }
     - { dest: "/lib/systemd/system" }
-    - { dest: "/opt/atlassian/jira", owner: "jira", group: "jira" }
-    - { dest: "/opt/atlassian/jira/bin", owner: "jira", group: "jira" }
-    - { dest: "/opt/atlassian/jira/conf", owner: "jira", group: "jira" }
-    - { dest: "/var/atlassian/application-data/jira", owner: "jira", group: "jira" }
+    - { dest: "/atlassian/jira", owner: "jira", group: "jira" }
+    - { dest: "/atlassian/jira/bin", owner: "jira", group: "jira" }
+    - { dest: "/atlassian/jira/conf", owner: "jira", group: "jira" }
+    - { dest: "/atlassian/application-data/jira", owner: "jira", group: "jira" }
   tags: jira
 
 - name: download archive
@@ -94,18 +95,18 @@
 - name: unarchive package
   shell: |
     set -o pipefail
-    cd /opt/atlassian/jira
+    cd /atlassian/jira
     tar zxf {{ jira_download.dest }} --strip-components=1
-    cd /opt/atlassian/jira/lib
+    cd /atlassian/jira/lib
     rm -rf *mysql*.jar
     tar zxf {{ mysql_jdbc_download.dest }} --strip-components=1 --wildcards "mysql*/*mysql*.jar"
-    cd /opt/atlassian/jira/lib
+    cd /atlassian/jira/lib
     rm -rf *postgresql*.jar
     cp {{ postgresql_jdbc_download.dest }} .
-    chown -Rf jira:jira /opt/atlassian/jira
+    chown -Rf jira:jira /atlassian/jira
   args:
     executable: "/bin/bash"
-    creates: "/opt/atlassian/jira/bin/start-jira.sh"
+    creates: "/atlassian/jira/bin/start-jira.sh"
   tags: jira
 
 - name: copy templates
@@ -118,8 +119,8 @@
   with_items:
     - { dest: "/etc/init.d/jira", mode: "0755" }
     - { dest: "/lib/systemd/system/jira.service" }
-    - { dest: "/opt/atlassian/jira/bin/setenv.sh", owner: "jira", group: "jira", mode: "0755" }
-    - { dest: "/opt/atlassian/jira/conf/server.xml", owner: "jira", group: "jira" }
+    - { dest: "/atlassian/jira/bin/setenv.sh", owner: "jira", group: "jira", mode: "0755" }
+    - { dest: "/atlassian/jira/conf/server.xml", owner: "jira", group: "jira" }
   notify:
     - systemctl daemon-reload
   tags: jira
@@ -134,8 +135,8 @@
   with_items:
     - { dest: "/etc/init.d/jira", mode: "0755" }
     - { dest: "/lib/systemd/system/jira.service" }
-    - { dest: "/opt/atlassian/jira/bin/setenv.sh", owner: "jira", group: "jira", mode: "0755" }
-    - { dest: "/opt/atlassian/jira/conf/server.xml", owner: "jira", group: "jira" }
+    - { dest: "/atlassian/jira/bin/setenv.sh", owner: "jira", group: "jira", mode: "0755" }
+    - { dest: "/atlassian/jira/conf/server.xml", owner: "jira", group: "jira" }
   tags: jira
 
 - name: enable service
