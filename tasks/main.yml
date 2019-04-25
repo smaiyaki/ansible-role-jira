@@ -47,16 +47,16 @@
 
 - name: groupadd
   group:
-    name: "jira"
+    name: "atlassian"
     system: true
     state: "present"
-  tags: jira
+  tags: atlassian
 
 - name: useradd
   user:
     name: "jira"
-    group: "jira"
-    home: "/atlassian/application-data/jira"
+    group: "atlassian"
+    home: "/atlassian/jira/data"
     shell: "/usr/sbin/nologin"
     system: true
     create_home: false
@@ -73,10 +73,10 @@
   with_items:
     - { dest: "/etc/init.d" }
     - { dest: "/lib/systemd/system" }
-    - { dest: "/atlassian/jira", owner: "jira", group: "jira" }
-    - { dest: "/atlassian/jira/bin", owner: "jira", group: "jira" }
-    - { dest: "/atlassian/jira/conf", owner: "jira", group: "jira" }
-    - { dest: "/atlassian/application-data/jira", owner: "jira", group: "jira" }
+    - { dest: "/atlassian/jira/application/current", owner: "jira", group: "atlassian" }
+    - { dest: "/atlassian/jira/application/current/bin", owner: "jira", group: "atlassian" }
+    - { dest: "/atlassian/jira/application/current/conf", owner: "jira", group: "atlassian" }
+    - { dest: "/atlassian/jira/data", owner: "jira", group: "atlassian" }
   tags: jira
 
 - name: download archive
@@ -95,18 +95,18 @@
 - name: unarchive package
   shell: |
     set -o pipefail
-    cd /atlassian/jira
+    cd /atlassian/jira/application/current
     tar zxf {{ jira_download.dest }} --strip-components=1
-    cd /atlassian/jira/lib
+    cd /atlassian/jira/application/current/lib
     rm -rf *mysql*.jar
     tar zxf {{ mysql_jdbc_download.dest }} --strip-components=1 --wildcards "mysql*/*mysql*.jar"
-    cd /atlassian/jira/lib
+    cd /atlassian/jira/application/current/lib
     rm -rf *postgresql*.jar
     cp {{ postgresql_jdbc_download.dest }} .
-    chown -Rf jira:jira /atlassian/jira
+    chown -Rf jira:jira /atlassian/jira/application/current
   args:
     executable: "/bin/bash"
-    creates: "/atlassian/jira/bin/start-jira.sh"
+    creates: "/atlassian/jira/application/current/bin/start-jira.sh"
   tags: jira
 
 - name: copy templates
@@ -119,9 +119,9 @@
   with_items:
     - { dest: "/etc/init.d/jira", mode: "0755" }
     - { dest: "/lib/systemd/system/jira.service" }
-    - { dest: "/atlassian/jira/bin/setenv.sh", owner: "jira", group: "jira", mode: "0755" }
-    - { dest: "/atlassian/jira/conf/server.xml", owner: "jira", group: "jira" }
-    - { dest: "/atlassian/application-data/jira/dbconfig.xml", owner: "jira", group: "jira" }
+    - { dest: "/atlassian/jira/application/current/bin/setenv.sh", owner: "jira", group: "atlassian", mode: "0755" }
+    - { dest: "/atlassian/jira/application/current/conf/server.xml", owner: "jira", group: "atlassian" }
+    - { dest: "/atlassian/jira/data/dbconfig.xml", owner: "jira", group: "atlassian" }
   notify:
     - systemctl daemon-reload
   tags: jira
@@ -136,9 +136,9 @@
   with_items:
     - { dest: "/etc/init.d/jira", mode: "0755" }
     - { dest: "/lib/systemd/system/jira.service" }
-    - { dest: "/atlassian/jira/bin/setenv.sh", owner: "jira", group: "jira", mode: "0755" }
-    - { dest: "/atlassian/jira/conf/server.xml", owner: "jira", group: "jira" }
-    - { dest: "/atlassian/application-data/jira/dbconfig.xml", owner: "jira", group: "jira" }
+    - { dest: "/atlassian/jira/application/current/bin/setenv.sh", owner: "jira", group: "atlassian", mode: "0755" }
+    - { dest: "/atlassian/jira/application/current/conf/server.xml", owner: "jira", group: "atlassian" }
+    - { dest: "/atlassian/jira/data/dbconfig.xml", owner: "jira", group: "atlassian" }
   tags: jira
 
 - name: enable service

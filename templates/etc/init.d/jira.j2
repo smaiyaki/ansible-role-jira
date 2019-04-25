@@ -14,9 +14,9 @@
 ### END INIT INFO
 
 JIRA_OWNER=${JIRA_OWNER:-jira}
-JIRA_GROUP=${JIRA_GROUP:-jira}
-JIRA_HOME=${JIRA_HOME:-/atlassian/application-data/jira}
-JIRA_CATALINA=${JIRA_CATALINA:-/atlassian/jira}
+JIRA_GROUP=${JIRA_GROUP:-atlassian}
+JIRA_HOME=${JIRA_HOME:-/atlassian/jira/data}
+JIRA_CATALINA=${JIRA_CATALINA:-/atlassian/jira/application/current}
 JIRA_CATALINA_PID=${JIRA_CATALINA}/work/catalina.pid
 
 start() {
