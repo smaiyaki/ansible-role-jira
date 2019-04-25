@@ -5,12 +5,12 @@ Description=Atlassian Jira
 After=syslog.target network.target
 
 [Service]
-ExecStart=/atlassian/jira/bin/start-jira.sh
-ExecStop=/atlassian/jira/bin/stop-jira.sh
-PIDFile=/atlassian/jira/work/catalina.pid
+ExecStart=/atlassian/jira/application/current/bin/start-jira.sh
+ExecStop=/atlassian/jira/application/current/bin/stop-jira.sh
+PIDFile=/atlassian/jira/application/current/work/catalina.pid
 Type=forking
 User=jira
-Group=jira
+Group=atlassian
 
 [Install]
 WantedBy=multi-user.target
