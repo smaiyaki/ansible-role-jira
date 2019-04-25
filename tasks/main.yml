@@ -148,3 +148,11 @@
   changed_when: false
   ignore_errors: true
   tags: jira
+
+- name: start service
+  service:
+    name: jira
+    state: restarted
+  changed_when: false
+  ignore_errors: true
+  tags: jira
