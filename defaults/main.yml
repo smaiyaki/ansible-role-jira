@@ -14,6 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# JIRA postgres database.
+jira_pg_pwd: "somestrings"
+
 # JVM minimal and maximum memory usage.
 jira_jvm_minimum_memory: "384m"
 jira_jvm_maximum_memory: "768m"
