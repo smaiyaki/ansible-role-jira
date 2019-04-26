@@ -23,8 +23,8 @@
         - "{{ ansible_os_family | lower }}-{{ ansible_distribution_major_version | lower }}.yml"
         - "{{ ansible_distribution | lower }}.yml"
         - "{{ ansible_os_family | lower }}.yml"
-      #paths: "../vars"
-      paths: "../atlassian"
+      paths: "../vars"
+      #paths: "../atlassian"
       skip: true
   loop_control:
     loop_var: "loop_var"
@@ -152,7 +152,7 @@
 - name: start service
   service:
     name: jira
-    state: restarted
-  changed_when: false
-  ignore_errors: true
+    state: started
+  #changed_when: false
+  #ignore_errors: true
   tags: jira
