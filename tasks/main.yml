@@ -121,7 +121,9 @@
     - { dest: "/lib/systemd/system/jira.service" }
     - { dest: "/atlassian/jira/application/current/bin/setenv.sh", owner: "jira", group: "atlassian", mode: "0755" }
     - { dest: "/atlassian/jira/application/current/conf/server.xml", owner: "jira", group: "atlassian" }
+    - { dest: "/atlassian/jira/application/current/conf/context.xml", owner: "jira", group: "atlassian" }
     - { dest: "/atlassian/jira/data/dbconfig.xml", owner: "jira", group: "atlassian" }
+    - { dest: "/atlassian/jira/data/jira-config.properties", owner: "jira", group: "atlassian" }
   notify:
     - systemctl daemon-reload
   tags: jira
@@ -138,7 +140,9 @@
     - { dest: "/lib/systemd/system/jira.service" }
     - { dest: "/atlassian/jira/application/current/bin/setenv.sh", owner: "jira", group: "atlassian", mode: "0755" }
     - { dest: "/atlassian/jira/application/current/conf/server.xml", owner: "jira", group: "atlassian" }
+    - { dest: "/atlassian/jira/application/current/conf/context.xml", owner: "jira", group: "atlassian" }
     - { dest: "/atlassian/jira/data/dbconfig.xml", owner: "jira", group: "atlassian" }
+    - { dest: "/atlassian/jira/data/jira-config.properties", owner: "jira", group: "atlassian" }
   tags: jira
 
 - name: enable service
