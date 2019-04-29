@@ -83,7 +83,7 @@
   get_url:
     url: "{{ item.url }}"
     dest: "{{ item.dest }}"
-    checksum: "{{ item.checksum }}"
+    #checksum: "{{ item.checksum }}"
   with_items:
     - "{{ jira_download }}"
     - "{{ mysql_jdbc_download }}"

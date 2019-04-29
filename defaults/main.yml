@@ -36,6 +36,7 @@ jira_session_timeout: "300"
 
 # URL for download archives.
 jira_version: "8.1.0"
+jira_flavour: "core"
 jira_download:
   url: "https://product-downloads.atlassian.com/software/jira/downloads/atlassian-jira-{{ jira_flavour }} -{{ jira_version }}.tar.gz"
   dest: "/tmp/atlassian-jira-core-{{ jira_version }}.tar.gz"
