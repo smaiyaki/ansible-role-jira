@@ -39,7 +39,7 @@ jira_version: "8.1.0"
 jira_flavour: "core"
 jira_download:
   url: "https://product-downloads.atlassian.com/software/jira/downloads/atlassian-jira-{{ jira_flavour }} -{{ jira_version }}.tar.gz"
-  dest: "/tmp/atlassian-jira-core-{{ jira_version }}.tar.gz"
+  dest: "/tmp/atlassian-jira-{{ jira_flavour }}-{{ jira_version }}.tar.gz"
   #checksum: "sha1:5d3c241dfa5da2a8eecb8cc875d5cbd34fa62217"
 mysql_jdbc_version: "8.0.15"
 mysql_jdbc_download:
