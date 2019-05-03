@@ -73,9 +73,6 @@
   with_items:
     - { dest: "/etc/init.d" }
     - { dest: "/lib/systemd/system" }
-    - { dest: "/atlassian/jira/application/current", owner: "jira", group: "atlassian" }
-    - { dest: "/atlassian/jira/application/current/bin", owner: "jira", group: "atlassian" }
-    - { dest: "/atlassian/jira/application/current/conf", owner: "jira", group: "atlassian" }
     - { dest: "/atlassian/jira/data", owner: "jira", group: "atlassian" }
   tags: jira
 
@@ -97,7 +94,7 @@
     set -o pipefail
     cd /atlassian/jira/application
     tar zxf {{ jira_download.dest }}
-    ln -s atlassian-{{ jira_flavour }}-{{ jira_version }} current
+    ln -s atlassian-{{ jira_flavour }}-{{ jira_version }}-standalone current
     cd /atlassian/jira/application/current/lib
     rm -rf *mysql*.jar
     tar zxf {{ mysql_jdbc_download.dest }} --strip-components=1 --wildcards "mysql*/*mysql*.jar"
@@ -107,8 +104,21 @@
     chown -Rf jira:atlassian /atlassian/jira/application/current
   args:
     executable: "/bin/bash"
-    creates: "/atlassian/jira/application/current/bin/start-jira.sh"
+    creates: "/atlassian/jira/application/atlassian-{{ jira_flavour }}-{{ jira_version }}-standalone/bin/start-jira.sh"
   tags: jira
+
+# - name: prepare directories after symlink
+#   file:
+#     dest: "{{ item.dest }}"
+#     owner: "{{ item.owner | default('root') }}"
+#     group: "{{ item.group | default('root') }}"
+#     mode: "{{ item.mode | default('0755') }}"
+#     state: "{{ item.state | default('directory') }}"
+#   with_items:
+#     #- { dest: "/atlassian/jira/application/current", owner: "jira", group: "atlassian" }
+#     - { dest: "/atlassian/jira/application/current/bin", owner: "jira", group: "atlassian" }
+#     - { dest: "/atlassian/jira/application/current/conf", owner: "jira", group: "atlassian" }
+#   tags: jira
 
 - name: copy templates
   template:
