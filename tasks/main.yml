@@ -74,6 +74,7 @@
     - { dest: "/etc/init.d" }
     - { dest: "/lib/systemd/system" }
     - { dest: "/atlassian/jira/data", owner: "jira", group: "atlassian" }
+    - { dest: "/atlassian/jira/application", owner: "jira", group: "atlassian" }
   tags: jira
 
 - name: download archive
