@@ -102,6 +102,7 @@
     cd /atlassian/jira/application/current/lib
     rm -rf *postgresql*.jar
     cp {{ postgresql_jdbc_download.dest }} .
+    chown -Rf jira:atlassian /atlassian/jira/application/atlassian-{{ jira_flavour }}-{{ jira_version }}-standalone
     chown -Rf jira:atlassian /atlassian/jira/application/current
   args:
     executable: "/bin/bash"
